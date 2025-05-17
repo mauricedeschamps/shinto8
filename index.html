@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryukyu Eight Shrines Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e74c3c;
+            --secondary-color: #c0392b;
+            --text-color: #333;
+            --bg-color: #fff;
+            --card-bg: #f9f9f9;
+            --footer-bg: #f1f1f1;
+        }
+
+        .dark-mode {
+            --primary-color: #e74c3c;
+            --secondary-color: #c0392b;
+            --text-color: #f0f0f0;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --footer-bg: #2d2d2d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://example.com/torii-bg.jpg') center/cover;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+            border-bottom: 5px solid var(--primary-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .mode-toggle, .lang-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mode-toggle:hover, .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .shrines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .shrine-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            border-top: 4px solid var(--primary-color);
+            position: relative;
+        }
+
+        .shrine-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .shrine-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .shrine-info {
+            padding: 15px;
+        }
+
+        .shrine-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .shrine-location {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .dark-mode .shrine-location {
+            color: #aaa;
+        }
+
+        .view-btn {
+            display: block;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .view-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .shrine-detail {
+            display: none;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .shrine-detail.active {
+            display: block;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .detail-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .back-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .detail-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+        }
+
+        .etiquette {
+            background-color: rgba(231, 76, 60, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .etiquette-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        footer {
+            background-color: var(--footer-bg);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .contact-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Torii gate decoration */
+        .torii-decoration {
+            height: 5px;
+            background-color: var(--primary-color);
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .torii-decoration:before, .torii-decoration:after {
+            content: "";
+            position: absolute;
+            height: 30px;
+            width: 5px;
+            background-color: var(--primary-color);
+            top: -30px;
+        }
+
+        .torii-decoration:before {
+            left: 20%;
+        }
+
+        .torii-decoration:after {
+            right: 20%;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .shrines-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="title">Ryukyu Eight Shrines</div>
+            <div class="controls">
+                <button class="mode-toggle" id="modeToggle">
+                    <i class="fas fa-moon"></i> Dark
+                </button>
+                <button class="lang-toggle" id="langToggle">
+                    <i class="fas fa-language"></i> EN
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="torii-decoration"></div>
+        
+        <div id="mainContent">
+            <h2>List of Ryukyu Eight Shrines</h2>
+            <div class="shrines-grid" id="shrinesGrid">
+                <!-- Shrine cards will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <div id="detailContent" style="display: none;">
+            <!-- Shrine detail will be inserted here by JavaScript -->
+        </div>
+
+        <div class="etiquette">
+            <div class="etiquette-title">Shrine Visit Etiquette</div>
+            <ul>
+                <li>Bow slightly before entering the torii gate</li>
+                <li>Purify your hands and mouth at the temizuya (water pavilion) before approaching the main hall</li>
+                <li>Throw a coin into the offering box (5-yen coins are considered lucky)</li>
+                <li>Bow twice, clap twice, pray silently, then bow once more</li>
+                <li>Be respectful and quiet during your visit</li>
+                <li>Photography may be restricted in certain areas - look for signs</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div>Contact me:</div>
+        <a href="mailto:mementomorikatsu@gmail.com" class="contact-link">
+            mementomorikatsu@gmail.com
+        </a>
+    </footer>
+
+    <script>
+        // Shrine data
+        const shrinesData = {
+            en: [
+                {
+                    id: 'naminoue',
+                    name: 'Naminoue Shrine',
+                    location: '1-25-11 Wakasa, Naha City',
+                    description: 'The most prestigious of the Ryukyu Eight Shrines, known as "The First Shrine of Ryukyu". Enshrines Kumano Gongen, offering benefits for maritime safety and warding off misfortune.',
+                    howToGet: '5-minute walk from Naminoue Station on the Yui Rail monorail. Located on a cliff overlooking the sea.',
+                    nearbySpots: 'Naminoue Beach, Tomari Port Market, Kokusai Street',
+                    image: 'https://example.com/naminoue.jpg'
+                },
+                {
+                    id: 'okinogu',
+                    name: 'Oki Shrine',
+                    location: '44 Onoyama-cho, Naha City (Onoyama Park)',
+                    description: 'Enshrines Amaterasu Omikami (Tenjiku Nyorai Guhoo), offering benefits for financial luck and business prosperity.',
+                    howToGet: '10-minute walk from Onoyama Koen Station on the Yui Rail monorail. Located within Onoyama Park.',
+                    nearbySpots: 'Onoyama Park, Naha City Athletics Stadium, Naha Military Port Observation Deck',
+                    image: 'https://example.com/okinogu.jpg'
+                },
+                {
+                    id: 'asato',
+                    name: 'Asato Hachiman Shrine',
+                    location: '3-19-14 Asato, Naha City',
+                    description: 'The only shrine among the eight that enshrines Hachiman, offering benefits for marital harmony and fertility.',
+                    howToGet: '15-minute walk from Asato Station on the Yui Rail monorail.',
+                    nearbySpots: 'Asato Shopping Arcade, Makishi Public Market, Tsuboya Pottery District',
+                    image: 'https://example.com/asato.jpg'
+                },
+                {
+                    id: 'ameku',
+                    name: 'Ameku Shrine',
+                    location: '3-19-3 Tomari, Naha City',
+                    description: 'Enshrines Benzaiten and dragon gods, offering protection for women and benefits for matchmaking.',
+                    howToGet: '10-minute walk from Miebashi Station on the Yui Rail monorail.',
+                    nearbySpots: 'Tomari Port, Naha Fishery Wholesale Market, Tomari Iyumachi Market',
+                    image: 'https://example.com/ameku.jpg'
+                },
+                {
+                    id: 'shikina',
+                    name: 'Shikina Shrine',
+                    location: '4-1-43 Hanadakawa, Naha City',
+                    description: 'Features a sacred stone in a cave, offering benefits for healing illnesses and conceiving children.',
+                    howToGet: 'Take bus #7 from Naha Bus Terminal to Hanadakawa stop (15 min), then 5-minute walk.',
+                    nearbySpots: 'Shikinaen Garden, Naha City Traditional Crafts Center',
+                    image: 'https://example.com/shikina.jpg'
+                },
+                {
+                    id: 'sueyoshi',
+                    name: 'Sueyoshi Shrine',
+                    location: '1-8 Sueyoshi-cho, Shuri, Naha City',
+                    description: 'Located on a mountaintop, offering benefits for artistic achievement and matchmaking.',
+                    howToGet: '15-minute walk from Shuri Station on the Yui Rail monorail, then hike up the mountain path (about 10 min).',
+                    nearbySpots: 'Shuri Castle Park, Shikinaen Garden, Tamaudun Mausoleum',
+                    image: 'https://example.com/sueyoshi.jpg'
+                },
+                {
+                    id: 'futenma',
+                    name: 'Futenma Shrine',
+                    location: '1-27-10 Futenma, Ginowan City',
+                    description: 'The only shrine outside Naha City among the eight, known for granting women\'s wishes, especially for "marrying well".',
+                    howToGet: 'Take bus #25 or #31 from Naha Bus Terminal to Futenma stop (30 min), then 5-minute walk.',
+                    nearbySpots: 'Ginowan Seaside Park, Okinawa Convention Center, Marine Park',
+                    image: 'https://example.com/futenma.jpg'
+                },
+                {
+                    id: 'kin',
+                    name: 'Kin Shrine',
+                    location: '222 Kin, Kin-cho, Kunigami District',
+                    description: 'Located inside a stalactite cave, offering benefits for wisdom and business prosperity.',
+                    howToGet: 'Take express bus from Naha Bus Terminal to Kin-cho (90 min), then 15-minute walk.',
+                    nearbySpots: 'Kin Castle Ruins, Okuma Beach, Hiji Falls',
+                    image: 'https://example.com/kin.jpg'
+                }
+            ],
+            ja: [
+                {
+                    id: 'naminoue',
+                    name: '波上宮',
+                    location: '那覇市若狭1-25-11',
+                    description: '琉球八社の中で最も格式が高く、「琉球国一之宮」とされる。熊野権現を祀り、航海安全や厄除けのご利益がある。',
+                    howToGet: 'ゆいレール「波の上駅」から徒歩5分。海を見下ろす崖の上に位置する。',
+                    nearbySpots: '波の上ビーチ、泊港市場、国際通り',
+                    image: 'https://example.com/naminoue.jpg'
+                },
+                {
+                    id: 'okinogu',
+                    name: '沖宮',
+                    location: '那覇市奥武山町44（奥武山公園内）',
+                    description: '天照大御神（天受久女龍宮王御神）を祀り、金運や商売繁盛のご利益がある。',
+                    howToGet: 'ゆいレール「奥武山公園駅」から徒歩10分。奥武山公園内にある。',
+                    nearbySpots: '奥武山公園、那覇市営陸上競技場、那覇軍港展望台',
+                    image: 'https://example.com/okinogu.jpg'
+                },
+                {
+                    id: 'asato',
+                    name: '安里八幡宮',
+                    location: '那覇市安里3-19-14',
+                    description: '琉球八社で唯一「八幡神」を祀り、夫婦和合や子宝祈願にご利益がある。',
+                    howToGet: 'ゆいレール「安里駅」から徒歩15分。',
+                    nearbySpots: '安里商店街、牧志公設市場、壺屋やちむん通り',
+                    image: 'https://example.com/asato.jpg'
+                },
+                {
+                    id: 'ameku',
+                    name: '天久宮',
+                    location: '那覇市泊3-19-3',
+                    description: '弁財天や龍神を祀り、女性の守護や縁結びのご利益がある。',
+                    howToGet: 'ゆいレール「美栄橋駅」から徒歩10分。',
+                    nearbySpots: '泊港、那覇市漁業協同組合市場、泊いゆまち',
+                    image: 'https://example.com/ameku.jpg'
+                },
+                {
+                    id: 'shikina',
+                    name: '識名宮',
+                    location: '那覇市繁多川4-1-43',
+                    description: '洞窟に霊石があり、病気平癒や子授けのご利益がある。',
+                    howToGet: '那覇バスターミナルから7番バスで繁多川バス停下車（15分）、徒歩5分。',
+                    nearbySpots: '識名園、那覇市伝統工芸館',
+                    image: 'https://example.com/shikina.jpg'
+                },
+                {
+                    id: 'sueyoshi',
+                    name: '末吉宮',
+                    location: '那覇市首里末吉町1-8',
+                    description: '山頂にあり、技芸成就や縁結びのご利益がある。',
+                    howToGet: 'ゆいレール「首里駅」から徒歩15分、その後山道を登る（約10分）。',
+                    nearbySpots: '首里城公園、識名園、玉陵',
+                    image: 'https://example.com/sueyoshi.jpg'
+                },
+                {
+                    id: 'futenma',
+                    name: '普天満宮',
+                    location: '宜野湾市普天間1-27-10',
+                    description: '琉球八社で唯一那覇市外にあり、女性の願いを叶える「玉の輿」のご利益がある。',
+                    howToGet: '那覇バスターミナルから25番または31番バスで普天間バス停下車（30分）、徒歩5分。',
+                    nearbySpots: '宜野湾海浜公園、沖縄コンベンションセンター、マリンパーク',
+                    image: 'https://example.com/futenma.jpg'
+                },
+                {
+                    id: 'kin',
+                    name: '金武宮',
+                    location: '国頭郡金武町金武222',
+                    description: '鍾乳洞内にあり、知恵授けや商売繁盛のご利益がある。',
+                    howToGet: '那覇バスターミナルから高速バスで金武町へ（90分）、徒歩15分。',
+                    nearbySpots: '金武城跡、奥間ビーチ、比地大滝',
+                    image: 'https://example.com/kin.jpg'
+                }
+            ]
+        };
+
+        // Current language and mode
+        let currentLang = 'en';
+        let darkMode = true;
+
+        // DOM elements
+        const modeToggle = document.getElementById('modeToggle');
+        const langToggle = document.getElementById('langToggle');
+        const shrinesGrid = document.getElementById('shrinesGrid');
+        const mainContent = document.getElementById('mainContent');
+        const detailContent = document.getElementById('detailContent');
+        const body = document.body;
+
+        // Initialize the app
+        function initApp() {
+            renderShrinesList();
+            setupEventListeners();
+            applyDarkMode();
+        }
+
+        // Render shrines list
+        function renderShrinesList() {
+            shrinesGrid.innerHTML = '';
+            shrinesData[currentLang].forEach(shrine => {
+                const shrineCard = document.createElement('div');
+                shrineCard.className = 'shrine-card';
+                shrineCard.innerHTML = `
+                    <div class="shrine-image" style="background-image: url('${shrine.image}')"></div>
+                    <div class="shrine-info">
+                        <div class="shrine-name">${shrine.name}</div>
+                        <div class="shrine-location">${shrine.location}</div>
+                        <a href="#" class="view-btn" data-id="${shrine.id}">
+                            ${currentLang === 'en' ? 'View Details' : '詳細を見る'}
+                        </a>
+                    </div>
+                `;
+                shrinesGrid.appendChild(shrineCard);
+            });
+        }
+
+        // Show shrine details
+        function showShrineDetails(shrineId) {
+            const shrine = shrinesData[currentLang].find(s => s.id === shrineId);
+            if (!shrine) return;
+
+            mainContent.style.display = 'none';
+            detailContent.style.display = 'block';
+            detailContent.innerHTML = `
+                <div class="shrine-detail active">
+                    <div class="detail-header">
+                        <div class="detail-title">${shrine.name}</div>
+                        <button class="back-btn" id="backBtn">
+                            <i class="fas fa-arrow-left"></i> ${currentLang === 'en' ? 'Back' : '戻る'}
+                        </button>
+                    </div>
+                    <img src="${shrine.image}" alt="${shrine.name}" class="detail-image">
+                    <div class="detail-section">
+                        <div class="section-title">${currentLang === 'en' ? 'Description' : '説明'}</div>
+                        <p>${shrine.description}</p>
+                    </div>
+                    <div class="detail-section">
+                        <div class="section-title">${currentLang === 'en' ? 'How to Get There' : 'アクセス方法'}</div>
+                        <p>${shrine.howToGet}</p>
+                    </div>
+                    <div class="detail-section">
+                        <div class="section-title">${currentLang === 'en' ? 'Nearby Tourist Spots' : '近隣の観光名所'}</div>
+                        <p>${shrine.nearbySpots}</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('backBtn').addEventListener('click', () => {
+                mainContent.style.display = 'block';
+                detailContent.style.display = 'none';
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Mode toggle
+            modeToggle.addEventListener('click', () => {
+                darkMode = !darkMode;
+                applyDarkMode();
+                updateModeToggleText();
+            });
+
+            // Language toggle
+            langToggle.addEventListener('click', () => {
+                currentLang = currentLang === 'en' ? 'ja' : 'en';
+                updateLangToggleText();
+                renderShrinesList();
+                if (detailContent.style.display === 'block') {
+                    const currentShrineId = document.querySelector('.shrine-detail.active')?.previousElementSibling?.dataset?.id;
+                    if (currentShrineId) showShrineDetails(currentShrineId);
+                }
+            });
+
+            // Shrine card clicks
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('view-btn') {
+                    e.preventDefault();
+                    showShrineDetails(e.target.dataset.id);
+                }
+            });
+        }
+
+        // Apply dark mode
+        function applyDarkMode() {
+            if (darkMode) {
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+            }
+        }
+
+        // Update mode toggle text
+        function updateModeToggleText() {
+            const icon = darkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            const text = darkMode ? 'Light' : 'Dark';
+            modeToggle.innerHTML = `${icon} ${text}`;
+        }
+
+        // Update language toggle text
+        function updateLangToggleText() {
+            const text = currentLang === 'en' ? 'JA' : 'EN';
+            langToggle.innerHTML = `<i class="fas fa-language"></i> ${text}`;
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
