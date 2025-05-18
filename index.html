@@ -31,10 +31,11 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: all 0.3s ease;
+            line-height: 1.6;
         }
 
         header {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://example.com/torii-bg.jpg') center/cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
             color: white;
             padding: 1rem;
             text-align: center;
@@ -65,12 +66,13 @@
             background: rgba(255, 255, 255, 0.2);
             border: none;
             color: white;
-            padding: 5px 10px;
+            padding: 8px 12px;
             border-radius: 5px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 5px;
+            transition: background 0.3s;
         }
 
         .mode-toggle:hover, .lang-toggle:hover {
@@ -94,19 +96,21 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-top: 4px solid var(--primary-color);
             position: relative;
         }
 
         .shrine-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .shrine-image {
             height: 180px;
             background-size: cover;
             background-position: center;
+            background-color: #ddd; /* Fallback color */
         }
 
         .shrine-info {
@@ -179,12 +183,17 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 8px 12px;
             border-radius: 5px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: var(--secondary-color);
         }
 
         .detail-image {
@@ -193,6 +202,7 @@
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 20px;
+            background-color: #ddd; /* Fallback color */
         }
 
         .detail-section {
@@ -274,6 +284,31 @@
             .shrines-grid {
                 grid-template-columns: 1fr;
             }
+
+            .detail-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .back-btn {
+                align-self: flex-end;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -337,7 +372,7 @@
                     description: 'The most prestigious of the Ryukyu Eight Shrines, known as "The First Shrine of Ryukyu". Enshrines Kumano Gongen, offering benefits for maritime safety and warding off misfortune.',
                     howToGet: '5-minute walk from Naminoue Station on the Yui Rail monorail. Located on a cliff overlooking the sea.',
                     nearbySpots: 'Naminoue Beach, Tomari Port Market, Kokusai Street',
-                    image: 'https://example.com/naminoue.jpg'
+                    image: 'https://images.unsplash.com/photo-1583083527882-4bee9aba2eea?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'okinogu',
@@ -346,7 +381,7 @@
                     description: 'Enshrines Amaterasu Omikami (Tenjiku Nyorai Guhoo), offering benefits for financial luck and business prosperity.',
                     howToGet: '10-minute walk from Onoyama Koen Station on the Yui Rail monorail. Located within Onoyama Park.',
                     nearbySpots: 'Onoyama Park, Naha City Athletics Stadium, Naha Military Port Observation Deck',
-                    image: 'https://example.com/okinogu.jpg'
+                    image: 'https://images.unsplash.com/photo-1551523711-458a23dfc65f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'asato',
@@ -355,7 +390,7 @@
                     description: 'The only shrine among the eight that enshrines Hachiman, offering benefits for marital harmony and fertility.',
                     howToGet: '15-minute walk from Asato Station on the Yui Rail monorail.',
                     nearbySpots: 'Asato Shopping Arcade, Makishi Public Market, Tsuboya Pottery District',
-                    image: 'https://example.com/asato.jpg'
+                    image: 'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'ameku',
@@ -364,7 +399,7 @@
                     description: 'Enshrines Benzaiten and dragon gods, offering protection for women and benefits for matchmaking.',
                     howToGet: '10-minute walk from Miebashi Station on the Yui Rail monorail.',
                     nearbySpots: 'Tomari Port, Naha Fishery Wholesale Market, Tomari Iyumachi Market',
-                    image: 'https://example.com/ameku.jpg'
+                    image: 'https://images.unsplash.com/photo-1566438480900-0609be27a4be?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'shikina',
@@ -373,7 +408,7 @@
                     description: 'Features a sacred stone in a cave, offering benefits for healing illnesses and conceiving children.',
                     howToGet: 'Take bus #7 from Naha Bus Terminal to Hanadakawa stop (15 min), then 5-minute walk.',
                     nearbySpots: 'Shikinaen Garden, Naha City Traditional Crafts Center',
-                    image: 'https://example.com/shikina.jpg'
+                    image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'sueyoshi',
@@ -382,7 +417,7 @@
                     description: 'Located on a mountaintop, offering benefits for artistic achievement and matchmaking.',
                     howToGet: '15-minute walk from Shuri Station on the Yui Rail monorail, then hike up the mountain path (about 10 min).',
                     nearbySpots: 'Shuri Castle Park, Shikinaen Garden, Tamaudun Mausoleum',
-                    image: 'https://example.com/sueyoshi.jpg'
+                    image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'futenma',
@@ -391,7 +426,7 @@
                     description: 'The only shrine outside Naha City among the eight, known for granting women\'s wishes, especially for "marrying well".',
                     howToGet: 'Take bus #25 or #31 from Naha Bus Terminal to Futenma stop (30 min), then 5-minute walk.',
                     nearbySpots: 'Ginowan Seaside Park, Okinawa Convention Center, Marine Park',
-                    image: 'https://example.com/futenma.jpg'
+                    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'kin',
@@ -400,7 +435,7 @@
                     description: 'Located inside a stalactite cave, offering benefits for wisdom and business prosperity.',
                     howToGet: 'Take express bus from Naha Bus Terminal to Kin-cho (90 min), then 15-minute walk.',
                     nearbySpots: 'Kin Castle Ruins, Okuma Beach, Hiji Falls',
-                    image: 'https://example.com/kin.jpg'
+                    image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 }
             ],
             ja: [
@@ -411,7 +446,7 @@
                     description: '琉球八社の中で最も格式が高く、「琉球国一之宮」とされる。熊野権現を祀り、航海安全や厄除けのご利益がある。',
                     howToGet: 'ゆいレール「波の上駅」から徒歩5分。海を見下ろす崖の上に位置する。',
                     nearbySpots: '波の上ビーチ、泊港市場、国際通り',
-                    image: 'https://example.com/naminoue.jpg'
+                    image: 'https://images.unsplash.com/photo-1583083527882-4bee9aba2eea?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'okinogu',
@@ -420,7 +455,7 @@
                     description: '天照大御神（天受久女龍宮王御神）を祀り、金運や商売繁盛のご利益がある。',
                     howToGet: 'ゆいレール「奥武山公園駅」から徒歩10分。奥武山公園内にある。',
                     nearbySpots: '奥武山公園、那覇市営陸上競技場、那覇軍港展望台',
-                    image: 'https://example.com/okinogu.jpg'
+                    image: 'https://images.unsplash.com/photo-1551523711-458a23dfc65f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'asato',
@@ -429,7 +464,7 @@
                     description: '琉球八社で唯一「八幡神」を祀り、夫婦和合や子宝祈願にご利益がある。',
                     howToGet: 'ゆいレール「安里駅」から徒歩15分。',
                     nearbySpots: '安里商店街、牧志公設市場、壺屋やちむん通り',
-                    image: 'https://example.com/asato.jpg'
+                    image: 'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'ameku',
@@ -438,7 +473,7 @@
                     description: '弁財天や龍神を祀り、女性の守護や縁結びのご利益がある。',
                     howToGet: 'ゆいレール「美栄橋駅」から徒歩10分。',
                     nearbySpots: '泊港、那覇市漁業協同組合市場、泊いゆまち',
-                    image: 'https://example.com/ameku.jpg'
+                    image: 'https://images.unsplash.com/photo-1566438480900-0609be27a4be?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'shikina',
@@ -447,7 +482,7 @@
                     description: '洞窟に霊石があり、病気平癒や子授けのご利益がある。',
                     howToGet: '那覇バスターミナルから7番バスで繁多川バス停下車（15分）、徒歩5分。',
                     nearbySpots: '識名園、那覇市伝統工芸館',
-                    image: 'https://example.com/shikina.jpg'
+                    image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'sueyoshi',
@@ -456,7 +491,7 @@
                     description: '山頂にあり、技芸成就や縁結びのご利益がある。',
                     howToGet: 'ゆいレール「首里駅」から徒歩15分、その後山道を登る（約10分）。',
                     nearbySpots: '首里城公園、識名園、玉陵',
-                    image: 'https://example.com/sueyoshi.jpg'
+                    image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'futenma',
@@ -465,7 +500,7 @@
                     description: '琉球八社で唯一那覇市外にあり、女性の願いを叶える「玉の輿」のご利益がある。',
                     howToGet: '那覇バスターミナルから25番または31番バスで普天間バス停下車（30分）、徒歩5分。',
                     nearbySpots: '宜野湾海浜公園、沖縄コンベンションセンター、マリンパーク',
-                    image: 'https://example.com/futenma.jpg'
+                    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 },
                 {
                     id: 'kin',
@@ -474,14 +509,14 @@
                     description: '鍾乳洞内にあり、知恵授けや商売繁盛のご利益がある。',
                     howToGet: '那覇バスターミナルから高速バスで金武町へ（90分）、徒歩15分。',
                     nearbySpots: '金武城跡、奥間ビーチ、比地大滝',
-                    image: 'https://example.com/kin.jpg'
+                    image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
                 }
             ]
         };
 
         // Current language and mode
         let currentLang = 'en';
-        let darkMode = true;
+        let darkMode = false; // Default to light mode
 
         // DOM elements
         const modeToggle = document.getElementById('modeToggle');
@@ -496,26 +531,38 @@
             renderShrinesList();
             setupEventListeners();
             applyDarkMode();
+            updateModeToggleText();
+            updateLangToggleText();
         }
 
         // Render shrines list
         function renderShrinesList() {
             shrinesGrid.innerHTML = '';
-            shrinesData[currentLang].forEach(shrine => {
-                const shrineCard = document.createElement('div');
-                shrineCard.className = 'shrine-card';
-                shrineCard.innerHTML = `
-                    <div class="shrine-image" style="background-image: url('${shrine.image}')"></div>
-                    <div class="shrine-info">
-                        <div class="shrine-name">${shrine.name}</div>
-                        <div class="shrine-location">${shrine.location}</div>
-                        <a href="#" class="view-btn" data-id="${shrine.id}">
-                            ${currentLang === 'en' ? 'View Details' : '詳細を見る'}
-                        </a>
-                    </div>
-                `;
-                shrinesGrid.appendChild(shrineCard);
-            });
+            
+            // Show loading state
+            const loading = document.createElement('div');
+            loading.className = 'loading';
+            shrinesGrid.appendChild(loading);
+            
+            // Simulate loading delay for better UX
+            setTimeout(() => {
+                shrinesGrid.innerHTML = '';
+                shrinesData[currentLang].forEach(shrine => {
+                    const shrineCard = document.createElement('div');
+                    shrineCard.className = 'shrine-card';
+                    shrineCard.innerHTML = `
+                        <div class="shrine-image" style="background-image: url('${shrine.image}')" aria-label="${shrine.name}"></div>
+                        <div class="shrine-info">
+                            <div class="shrine-name">${shrine.name}</div>
+                            <div class="shrine-location">${shrine.location}</div>
+                            <a href="#" class="view-btn" data-id="${shrine.id}">
+                                ${currentLang === 'en' ? 'View Details' : '詳細を見る'}
+                            </a>
+                        </div>
+                    `;
+                    shrinesGrid.appendChild(shrineCard);
+                });
+            }, 500);
         }
 
         // Show shrine details
@@ -552,6 +599,8 @@
             document.getElementById('backBtn').addEventListener('click', () => {
                 mainContent.style.display = 'block';
                 detailContent.style.display = 'none';
+                // Scroll to top of main content
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
 
@@ -569,6 +618,15 @@
                 currentLang = currentLang === 'en' ? 'ja' : 'en';
                 updateLangToggleText();
                 renderShrinesList();
+                
+                // Update main title
+                document.querySelector('.title').textContent = currentLang === 'en' 
+                    ? 'Ryukyu Eight Shrines' 
+                    : '琉球八社ガイド';
+                
+                // Update etiquette section
+                updateEtiquetteSection();
+                
                 if (detailContent.style.display === 'block') {
                     const currentShrineId = document.querySelector('.shrine-detail.active')?.previousElementSibling?.dataset?.id;
                     if (currentShrineId) showShrineDetails(currentShrineId);
@@ -577,11 +635,43 @@
 
             // Shrine card clicks
             document.addEventListener('click', (e) => {
-                if (e.target.classList.contains('view-btn') {
+                if (e.target.classList.contains('view-btn')) {
                     e.preventDefault();
                     showShrineDetails(e.target.dataset.id);
                 }
             });
+        }
+
+        // Update etiquette section based on language
+        function updateEtiquetteSection() {
+            const etiquetteSection = document.querySelector('.etiquette');
+            if (!etiquetteSection) return;
+            
+            if (currentLang === 'en') {
+                etiquetteSection.innerHTML = `
+                    <div class="etiquette-title">Shrine Visit Etiquette</div>
+                    <ul>
+                        <li>Bow slightly before entering the torii gate</li>
+                        <li>Purify your hands and mouth at the temizuya (water pavilion) before approaching the main hall</li>
+                        <li>Throw a coin into the offering box (5-yen coins are considered lucky)</li>
+                        <li>Bow twice, clap twice, pray silently, then bow once more</li>
+                        <li>Be respectful and quiet during your visit</li>
+                        <li>Photography may be restricted in certain areas - look for signs</li>
+                    </ul>
+                `;
+            } else {
+                etiquetteSection.innerHTML = `
+                    <div class="etiquette-title">神社参拝のマナー</div>
+                    <ul>
+                        <li>鳥居の前で軽く会釈をしてから入る</li>
+                        <li>手水舎で手と口を清めてから本殿へ進む</li>
+                        <li>賽銭箱に硬貨を投げ入れる（5円玉が縁起が良いとされる）</li>
+                        <li>二礼二拍手一礼の作法で参拝する</li>
+                        <li>静かに敬意を持って参拝する</li>
+                        <li>撮影禁止の場所もあるので注意表示を確認する</li>
+                    </ul>
+                `;
+            }
         }
 
         // Apply dark mode
